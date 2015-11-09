@@ -59,4 +59,7 @@ class WatchCat(object):
 
 
 if __name__ == '__main__':
-    WatchCat(connection=MongoClient('localhost',27017),sender=SenderCat())
+    import urllib
+    username = 'root'
+    password = urllib.quote_plus('root')
+    WatchCat(connection=MongoClient('mongodb://%s:%s@115.238.170.107' % (username,password),27017),sender=SenderCat())
