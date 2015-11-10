@@ -7,7 +7,9 @@ import re
 import time
 
 from MongoOpCat.sender.StdOutSenderCat import StdOutSenderCat
+from MongoOpCat.sender.FSSenderCat import FSSenderCat
 from MongoOpCat.conf.Configuration import Configuration
+from MongoOpCat.conf.MeChanism import MeChanism
 
 
 class MonitorCat(object):
@@ -19,7 +21,7 @@ class MonitorCat(object):
             connection = conf.mongov
             senders = conf.senders
             ifStartNow = conf.ifStartNow
-
+            self.oplogNs = "oplog.$main" if conf.mechanismv == MeChanism.Master_Slave else "oplog.rs"
             if collection is not None:
                 if database is None:
                     raise ValueError('Unknown database name for collection %s' % (collection,))
@@ -46,7 +48,7 @@ class MonitorCat(object):
 
 
     def startWatch(self):
-        oplog = self.connection.local['oplog.rs']
+        oplog = self.connection.local[self.oplogNs]
         ts = oplog.find().sort('$natural', -1)[0]['ts']
         while True:
             if self.nsFilter is None:
@@ -73,4 +75,6 @@ if __name__ == '__main__':
     # import urllib
     # username = 'root'
     # password = urllib.quote_plus('root')
-    cat = MonitorCat(Configuration().mongo(MongoClient('mongodb://127.0.0.1',27017)).database("mytest").collection("books").interval(2).sender(StdOutSenderCat()))
+    cat = MonitorCat(Configuration().mongo(MongoClient('mongodb://127.0.0.1',27017))
+                     .database("mytest").collection("books").interval(2).sender(StdOutSenderCat())
+                     .sender(FSSenderCat('.')))

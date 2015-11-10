@@ -4,6 +4,7 @@
 from pymongo import MongoClient
 from MongoOpCat.sender.AbstractSender import AbstractSender
 from MongoOpCat.sender.StdOutSenderCat import StdOutSenderCat
+from MongoOpCat.conf.MeChanism import MeChanism
 
 class Configuration(object):
 
@@ -14,6 +15,7 @@ class Configuration(object):
         self.timeInterval = 1.0
         self.ifStartNow = True
         self.senders = [StdOutSenderCat(),]
+        self.mechanismv = MeChanism.Replica_Sets
 
     def ready(self):
         if self.mongov is not None and self.senders is not None and len(self.senders) > 0:
@@ -60,4 +62,10 @@ class Configuration(object):
     def sender(self,nSender):
         if nSender and isinstance(nSender,AbstractSender):
             self.senders.append(nSender)
+        return self
+
+    #mechanism
+    def mechanism(self,mechanismv):
+        if mechanismv is not None and mechanismv in (MeChanism.Master_Slave,MeChanism.Replica_Sets):
+            self.mechanismv = mechanismv
         return self
