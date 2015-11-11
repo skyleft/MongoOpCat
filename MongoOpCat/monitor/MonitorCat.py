@@ -42,12 +42,12 @@ class MonitorCat(object):
             self.senders = senders
 
             if ifStartNow:
-                self.startWatch()
+                self.start()
         else:
             raise SystemError('Configuration is not finished.')
 
 
-    def startWatch(self):
+    def start(self):
         oplog = self.connection.local[self.oplogNs]
         ts = oplog.find().sort('$natural', -1)[0]['ts']
         while True:

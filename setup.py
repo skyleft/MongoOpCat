@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = 'MongoOpCat',
-    version = '0.0.1',
+    version = '0.0.3',
     keywords = ('mongodb', 'oplog'),
     description = 'a simple service which can monitor mongodb oplog',
     license = 'MIT License',
