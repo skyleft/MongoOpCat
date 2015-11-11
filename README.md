@@ -1,7 +1,3 @@
-# MongoOpCat
-a subscribe service for mongodb oplog
-
-##How to use
 ======
 MongoOpCat
 ======
@@ -9,7 +5,7 @@ MongoOpCat
 Overview
 ========
 
-Scrapy is a subscribe service for mongodb oplog, support for Slave-Master and ReplicaSets.
+MongoOpCat is a subscribe service for mongodb oplog, support for Slave-Master and ReplicaSets.
 You can use it to implement incremental backup or some other log functionality.
 
 Requirements
@@ -21,9 +17,11 @@ Requirements
 Install
 =======
 
-The quick way::
+The quickest and easiest way
 
     pip install MongoOpCat
+
+
 Usage Example
 =======
     from MongoOpCat.monitor.MonitorCat import MonitorCat
@@ -36,12 +34,12 @@ Usage Example
                          .database("testdb").collection("testcollection").interval(2).sender(StdOutSenderCat())
                          .sender(FSSenderCat('.')))
 
-    This code will monitor testcolletion of testdb on 127.0.0.1:27017, if there is new CRUD operation on it
-    it will print the operation description to the console(StdOutSenderCat) and write the mongodb command to
-    the mop file(FSSenderCat).
+This code will monitor testcolletion of testdb on 127.0.0.1:27017, if there is new CRUD operation on it
+it will print the operation description to the console(StdOutSenderCat) and write the mongodb command to
+the mop file(FSSenderCat).
 
-    If you want to do more things, just extends MongoOpCat.sender.AbstractSender, and override the insert,delete,update
-    method to do what you want.
+If you want to do more things, just extends MongoOpCat.sender.AbstractSender, and override the insert,delete,update
+method to do what you want.
 
 Support
 ==================
